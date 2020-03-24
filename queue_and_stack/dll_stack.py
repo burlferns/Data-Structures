@@ -1,5 +1,6 @@
 import sys
-sys.path.append('../Data-Structures/doubly_linked_list')
+sys.path.append('/Volumes/ST5/DB/OL/CI-LambdaSchool/myGitPrj/unit06/3-DataStructures/Data-Structures/doubly_linked_list')
+# print(f'sys.path is {sys.path}')
 from doubly_linked_list import DoublyLinkedList
 
 class Stack:
