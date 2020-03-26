@@ -1,3 +1,9 @@
+import sys
+sys.path.append('/Volumes/ST5/DB/OL/CI-LambdaSchool/myGitPrj/unit06/3-DataStructures/Data-Structures/doubly_linked_list')
+from doubly_linked_list import DoublyLinkedList
+
+
+
 class LRUCache:
     """
     Our LRUCache class keeps track of the max number of nodes it
@@ -7,7 +13,11 @@ class LRUCache:
     to every node stored in the cache.
     """
     def __init__(self, limit=10):
-        pass
+        self.limit = limit # max nodes
+        self.size = 0 # actual current number of nodes
+        self.valPtrStore = {} # dictionary (hashtable) {'key':[value, node pointers]} 
+        self.orderList =  DoublyLinkedList() # to store the 'key' in order
+        
 
     """
     Retrieves the value associated with the given key. Also
@@ -17,7 +27,12 @@ class LRUCache:
     key-value pair doesn't exist in the cache.
     """
     def get(self, key):
-        pass
+        if key not in self.valPtrStore.keys():
+            return None
+        else:
+            self.orderList.move_to_front(self.valPtrStore[key][1])
+            self.valPtrStore[key][1] = self.orderList.head
+            return self.valPtrStore[key][0]
 
     """
     Adds the given key-value pair to the cache. The newly-
@@ -30,4 +45,19 @@ class LRUCache:
     the newly-specified value.
     """
     def set(self, key, value):
-        pass
+        if key in self.valPtrStore.keys():
+            self.orderList.move_to_front(self.valPtrStore[key][1])
+        else:
+            if self.size == self.limit:
+                del self.valPtrStore[self.orderList.tail.value]
+                self.orderList.remove_from_tail()
+            else:
+                self.size += 1
+            self.orderList.add_to_head(key)
+            self.valPtrStore[key] = [None,None]
+        self.valPtrStore[key][0] = value
+        self.valPtrStore[key][1] = self.orderList.head
+
+
+
+
